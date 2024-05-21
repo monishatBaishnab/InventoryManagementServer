@@ -8,7 +8,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const express_1 = __importDefault(require('express'));
 const cors_1 = __importDefault(require('cors'));
 const product_route_1 = __importDefault(
-  require('./modules/product/product.route'),
+  require('./app/modules/product/product.route'),
+);
+const order_route_1 = __importDefault(
+  require('./app/modules/order/order.route'),
 );
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -19,6 +22,8 @@ app.get('/api/health', (req, res) => {
 });
 // Mounting product routes
 app.use('/api', product_route_1.default);
+//Mounting order routes
+app.use('/api', order_route_1.default);
 // Middleware to handle requests to unknown routes
 app.use('*', (req, res) => {
   res.send({

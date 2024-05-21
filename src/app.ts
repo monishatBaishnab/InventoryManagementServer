@@ -1,6 +1,7 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
-import productRouter from './modules/product/product.route';
+import productRouter from './app/modules/product/product.route';
+import orderRouter from './app/modules/order/order.route';
 const app = express();
 
 app.use(express.json());
@@ -13,6 +14,9 @@ app.get('/api/health', (req: Request, res: Response) => {
 
 // Mounting product routes
 app.use('/api', productRouter);
+
+//Mounting order routes
+app.use('/api', orderRouter);
 
 // Middleware to handle requests to unknown routes
 app.use('*', (req: Request, res: Response) => {

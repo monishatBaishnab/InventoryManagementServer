@@ -1,8 +1,14 @@
 import { Product } from "./product.interface";
 import { ProductModel } from "./product.model";
 
-const fetchProductsIntoDB = async () => {
-    const result = await ProductModel.find();
+const fetchProductsIntoDB = async (searchTerm: any) => {
+
+    let searchObj = {}
+    if(searchTerm){
+        searchObj = { $text: { $search: searchTerm } }
+    }
+
+    const result = await ProductModel.find(searchObj);
     return result;
 }
 
@@ -18,7 +24,7 @@ const createNewProductIntoDB = async (productData: Product) => {
 }
 
 const updateProductIntoDB = async (productId: string, productData: Product) => {
-    const result = await ProductModel.findOneAndUpdate({ _id: productId }, { $set: productData }, {new: true});
+    const result = await ProductModel.findOneAndUpdate({ _id: productId }, { $set: productData }, { new: true });
     return result;
 }
 

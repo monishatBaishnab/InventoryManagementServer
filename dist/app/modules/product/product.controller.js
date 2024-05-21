@@ -15,10 +15,15 @@ const product_validation_1 = require("./product.validation");
 const { createNewProductIntoDB, fetchProductsIntoDB, fetchProductIntoDB, updateProductIntoDB, deleteProductIntoDB } = product_service_1.productServices;
 const fetchProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield fetchProductsIntoDB();
+        const { searchTerm } = req.query || {};
+        console.log(searchTerm);
+        const message = searchTerm ?
+            `Products matching search term '${searchTerm}' fetched successfully!`
+            : "Products fetched successfully!";
+        const result = yield fetchProductsIntoDB(searchTerm);
         res.send({
             "success": true,
-            "message": "Products fetched successfully!",
+            "message": message.replace(/"/g, ""),
             "data": result
         });
     }

@@ -11,8 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productServices = void 0;
 const product_model_1 = require("./product.model");
-const fetchProductsIntoDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.ProductModel.find();
+const fetchProductsIntoDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    let searchObj = {};
+    if (searchTerm) {
+        searchObj = { $text: { $search: searchTerm } };
+    }
+    const result = yield product_model_1.ProductModel.find(searchObj);
     return result;
 });
 const fetchProductIntoDB = (productId) => __awaiter(void 0, void 0, void 0, function* () {

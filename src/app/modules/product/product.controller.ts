@@ -6,12 +6,20 @@ const { createNewProductIntoDB, fetchProductsIntoDB, fetchProductIntoDB, updateP
 
 const fetchProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const result = await fetchProductsIntoDB();
+        const { searchTerm } = req.query || {};
+        console.log(searchTerm);
+        const message = searchTerm ?
+            `Products matching search term '${searchTerm}' fetched successfully!`
+            : "Products fetched successfully!";
+
+        const result = await fetchProductsIntoDB(searchTerm);
+
         res.send({
             "success": true,
-            "message": "Products fetched successfully!",
+            "message": message.replace(/"/g, ""),
             "data": result
         })
+
     } catch (error) {
         next(error);
     }

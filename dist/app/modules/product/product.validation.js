@@ -7,11 +7,11 @@ exports.productValidationSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const variantsValidationSchema = joi_1.default.object({
     type: joi_1.default.string().required(),
-    value: joi_1.default.string().required()
+    value: joi_1.default.string().required(),
 });
 const inventoryValidationSchema = joi_1.default.object({
     quantity: joi_1.default.number().required(),
-    inStock: joi_1.default.boolean().required()
+    inStock: joi_1.default.boolean().required(),
 });
 const productValidationSchema = joi_1.default.object({
     name: joi_1.default.string().required(),
@@ -20,6 +20,6 @@ const productValidationSchema = joi_1.default.object({
     category: joi_1.default.string().required(),
     tags: joi_1.default.array().items(joi_1.default.string()).required(),
     variants: joi_1.default.array().items(variantsValidationSchema).required(),
-    inventory: inventoryValidationSchema.required()
+    inventory: inventoryValidationSchema.required(),
 });
 exports.productValidationSchema = productValidationSchema;

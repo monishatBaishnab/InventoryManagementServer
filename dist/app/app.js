@@ -9,19 +9,25 @@ const product_route_1 = __importDefault(require("./modules/product/product.route
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-//use product routes
+// Route for checking the health of the service
+app.get('/api/health', (req, res) => {
+    res.status(200).send('Service is up and running!');
+});
+// Mounting product routes
 app.use('/api', product_route_1.default);
+// Middleware to handle requests to unknown routes
 app.use('*', (req, res) => {
     res.send({
         success: false,
-        message: 'Route Not Found.'
+        message: 'Route Not Found.',
     });
 });
-app.use((error, req, res, next) => {
+// Error handling middleware to catch and handle errors
+app.use((error, req, res) => {
     if (error) {
         res.status(400).send({
             success: false,
-            message: 'Somthing want wrong.'
+            message: 'Somthing want wrong.',
         });
     }
 });

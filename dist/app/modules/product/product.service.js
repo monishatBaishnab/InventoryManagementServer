@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productServices = void 0;
 const product_model_1 = require("./product.model");
+// Function to fetch products from the database based on searchTerm
 const fetchProductsIntoDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
     let searchObj = {};
     if (searchTerm) {
@@ -19,27 +20,32 @@ const fetchProductsIntoDB = (searchTerm) => __awaiter(void 0, void 0, void 0, fu
     const result = yield product_model_1.ProductModel.find(searchObj);
     return result;
 });
+// Function to fetch a single product from the database based on productId
 const fetchProductIntoDB = (productId) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(productId);
     const result = yield product_model_1.ProductModel.findOne({ _id: productId });
     return result;
 });
+// Function to create a new product in the database
 const createNewProductIntoDB = (productData) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_model_1.ProductModel.create(productData);
     return result;
 });
+// Function to update an existing product in the database based on productId
 const updateProductIntoDB = (productId, productData) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_model_1.ProductModel.findOneAndUpdate({ _id: productId }, { $set: productData }, { new: true });
     return result;
 });
+// Function to delete a product from the database based on productId
 const deleteProductIntoDB = (productId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_model_1.ProductModel.deleteOne({ _id: productId });
     return result;
 });
+// Exporting all product-related database operations as a module
 exports.productServices = {
     createNewProductIntoDB,
     fetchProductsIntoDB,
     fetchProductIntoDB,
     updateProductIntoDB,
-    deleteProductIntoDB
+    deleteProductIntoDB,
 };

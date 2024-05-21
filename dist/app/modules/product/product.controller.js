@@ -11,7 +11,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productController = void 0;
 const product_service_1 = require("./product.service");
-const { createNewProductIntoDB } = product_service_1.productServices;
+const { createNewProductIntoDB, fetchProductsIntoDB, fetchProductIntoDB, updateProductIntoDB, deleteProductIntoDB } = product_service_1.productServices;
+const fetchProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield fetchProductsIntoDB();
+        res.send({
+            "success": true,
+            "message": "Products fetched successfully!",
+            "data": result
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+const fetchProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const productId = (_a = req === null || req === void 0 ? void 0 : req.params) === null || _a === void 0 ? void 0 : _a.productId;
+        const result = yield fetchProductIntoDB(productId);
+        res.send({
+            "success": true,
+            "message": "Product fetched successfully!",
+            "data": result
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
 const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const productData = req.body;
@@ -26,6 +54,39 @@ const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         next(error);
     }
 });
+const updateProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const productData = req.body;
+        const productId = req.params.productId;
+        const result = yield updateProductIntoDB(productId, productData);
+        res.send({
+            "success": true,
+            "message": "Products updated successfully!",
+            "data": result
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+const deleteProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const productId = req.params.productId;
+        yield deleteProductIntoDB(productId);
+        res.send({
+            "success": true,
+            "message": "Products deleted successfully!",
+            "data": null
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
 exports.productController = {
-    createProduct
+    createProduct,
+    fetchProducts,
+    fetchProduct,
+    updateProduct,
+    deleteProduct
 };

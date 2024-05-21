@@ -1,13 +1,13 @@
 import { Server } from "http";
 import app from "./app/app";
-import config from "./config";
+import config from "./app/config";
 import mongoose from "mongoose";
 
 let server: Server;
 
 const bootstrap = async () => {
     try {
-        await mongoose.connect(config.DB_URI as string);
+        await mongoose.connect(config.DB_URI as string, {dbName: 'InventoryManagement'});
         console.log('Database succefully connected.');
 
         server = app.listen(config.port, () => {

@@ -8,24 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = __importDefault(require("./app/app"));
-const config_1 = __importDefault(require("./app/config"));
-const mongoose_1 = __importDefault(require("mongoose"));
-let server;
-const bootstrap = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.productController = void 0;
+const product_service_1 = require("./product.service");
+const { createNewProductIntoDB } = product_service_1.productServices;
+const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(config_1.default.DB_URI, { dbName: 'InventoryManagement' });
-        console.log('Database succefully connected.');
-        server = app_1.default.listen(config_1.default.port, () => {
-            console.log(`Server running on port: ${config_1.default.port}`);
+        const productData = req.body;
+        const result = yield createNewProductIntoDB(productData);
+        res.send({
+            "success": true,
+            "message": "Products created successfully!",
+            "data": result
         });
     }
     catch (error) {
-        console.log(error);
+        next(error);
     }
 });
-bootstrap();
+exports.productController = {
+    createProduct
+};

@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productController = void 0;
 const product_service_1 = require("./product.service");
+const product_validation_1 = require("./product.validation");
 const { createNewProductIntoDB, fetchProductsIntoDB, fetchProductIntoDB, updateProductIntoDB, deleteProductIntoDB } = product_service_1.productServices;
 const fetchProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -43,7 +44,15 @@ const fetchProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
 const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const productData = req.body;
-        const result = yield createNewProductIntoDB(productData);
+        const { error, value: validatedProductData } = product_validation_1.productValidationSchema.validate(productData);
+        if (error) {
+            return res.send({
+                "success": false,
+                "message": "Somthing want wrong!",
+                "error": error.details
+            });
+        }
+        const result = yield createNewProductIntoDB(validatedProductData);
         res.send({
             "success": true,
             "message": "Products created successfully!",
@@ -58,7 +67,15 @@ const updateProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     try {
         const productData = req.body;
         const productId = req.params.productId;
-        const result = yield updateProductIntoDB(productId, productData);
+        const { error, value: validatedProductData } = product_validation_1.productValidationSchema.validate(productData);
+        if (error) {
+            return res.send({
+                "success": false,
+                "message": "Somthing want wrong!",
+                "error": error.details
+            });
+        }
+        const result = yield updateProductIntoDB(productId, validatedProductData);
         res.send({
             "success": true,
             "message": "Products updated successfully!",

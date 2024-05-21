@@ -4,6 +4,9 @@
 
 This project is an Inventory Management Server built with Node JS, Express JS, Mongoose and MongoDB. It includes TypeScript for static type-checking and uses various development tools to ensure code quality and consistency.
 
+**LIVE API Base URL:** [https://inventory-management-server-eta.vercel.app/](https://inventory-management-server-eta.vercel.app/)
+
+
 ## Table of Contents
 
 - [Installation](#installation)
